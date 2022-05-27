@@ -13,7 +13,7 @@
 
 - 일단 calendar-type-frontend 프로젝트에서 새로운 기능 개발 완료 후 계속 nextJs로 마이그레이션하는 작업 진행 예정
 - 필요 사항은 https://github.com/bin-hw92/calendar-backend  부분 참조하면 됩니다.
-- 
+
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
