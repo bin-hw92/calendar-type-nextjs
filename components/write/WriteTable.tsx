@@ -1,4 +1,5 @@
 
+import { ChangeEvent, FormEvent } from "react";
 import { Button, Form } from "react-bootstrap";
 import styled from "styled-components";
 import Styles from "../../styles/Table.module.css";
@@ -19,9 +20,9 @@ type WriteTableProps = {
         users: any[];
     };
     error: (string|number)[];
-    onChange: (e: any) => void;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     onCancel: () => void;
-    onSubmit: (e: any) => void
+    onSubmit: (e: FormEvent) => void
 }
 
 const WriteTable = ({ table, error, onSubmit, onCancel, onChange }:WriteTableProps) => {

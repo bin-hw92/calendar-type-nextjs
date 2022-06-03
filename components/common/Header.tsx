@@ -45,7 +45,7 @@ const UserInfo = styled.div`
 `;
 
 type HeaderProps = {
-    userLogin: any;
+    userLogin: string[];
     onLogout:() => void;
 }
 const Header = ({userLogin, onLogout}:HeaderProps) => {

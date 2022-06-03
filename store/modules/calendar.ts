@@ -18,7 +18,7 @@ const [LIST_HOLIDAY, LIST_HOLIDAY_SUCCESS, LIST_HOLIDAY_FAILURE ] = createReques
 export const initialize = createAction(INITIALIZE);
 export const changeCalendar = createAction(
     CHANGE_CALENDAR,
-    ({ viewYear, viewMonth, viewDate }:any) => ({
+    ({ viewYear, viewMonth, viewDate }:calendarApi.calendarActionState) => ({
         viewYear,
         viewMonth,
         viewDate
@@ -26,18 +26,20 @@ export const changeCalendar = createAction(
 );
 export const changeCalendarMonth = createAction(
     CHANGE_MONTHCALENDAR,
-    ({ startMonth, endMonth }:any) => ({
+    ({ startMonth, endMonth }:calendarApi.calendarActionState) => ({
         startMonth,
         endMonth
     }),
 );
+
+type ModalState = {modalFlag: boolean, type:string|null};
 export const changeModal = createAction(CHANGE_MODAL, 
-    ({modalFlag, type}:any) => ({
+    ({modalFlag, type}:ModalState) => ({
         modalFlag,
         type,
     }),
 );
-export const changeWrite = createAction(CHANGE_WRITE, ({ key, value}:any) => ({
+export const changeWrite = createAction(CHANGE_WRITE, ({ key, value}:calendarApi.calendarActionState) => ({
     key,
     value
 }));
@@ -45,20 +47,20 @@ export const changeWrite = createAction(CHANGE_WRITE, ({ key, value}:any) => ({
 
 export const changeSubWrite = createAction(
     CHANGE_SUBWRITE,
-    ({ form, key, value }:any) => ({
+    ({ form, key, value }:calendarApi.calendarActionState) => ({
         form, // startDate, endDate
         key, // year, month, min, hour, min
         value, // 실제 바꾸려는 값
 }));
 
 //이거 액션 실행되고, 사가를 통해서 api 호출 진행
-export const listCalendar = createAction(LIST_CALENDAR, ({ startMonth, endMonth }:any) => ({
+export const listCalendar = createAction(LIST_CALENDAR, ({ startMonth, endMonth }:calendarApi.calendarActionState) => ({
     startMonth,
     endMonth,
 }));
 
 //이거 액션 실행되고, 사가를 통해서 api 호출 진행
-export const listHoliday = createAction(LIST_HOLIDAY, ({ viewYear }:any) => ({
+export const listHoliday = createAction(LIST_HOLIDAY, ({ viewYear }:calendarApi.calendarActionState) => ({
     viewYear
 }));
 
@@ -100,7 +102,7 @@ export interface CalendarState {
     holidayList: getHolidayListDb[]|null,
     error: any|null,
     modalFlag: boolean,
-    type: any|null,
+    type: string|null,
 }
 
 const nowDate = new Date();

@@ -1,4 +1,5 @@
 
+import { ChangeEvent, FormEvent } from "react";
 import { Button, Form } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -20,7 +21,7 @@ type LabelItemProps = {
         color: string;
     }[];
     labelStyle: string;
-    onStyleClick: (id: any) => void;
+    onStyleClick: (id: number) => void;
 }
 
 const LabelItem = ({labels, labelStyle, onStyleClick }:LabelItemProps) => {
@@ -66,12 +67,12 @@ type WriteViewProps = {
         labelText: string;
     }
     error: string[];
-    onChange: (e: any) => void;
-    onDateChange: (date: any, type: any) => void;
-    onSubmit: (e: any) => void;
-    onInputChange: (e: any) => void;
-    calendarId: any;
-    onStyleClick: (id: any) => void;
+    onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+    onDateChange: (date: Date, type: string) => void;
+    onSubmit: (e: FormEvent) => void;
+    onInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    calendarId: string|null;
+    onStyleClick: (id: number) => void;
 }
 
 const WriteView = ({ write, error, onChange, onDateChange, onSubmit, onInputChange, calendarId, onStyleClick }:WriteViewProps) => {

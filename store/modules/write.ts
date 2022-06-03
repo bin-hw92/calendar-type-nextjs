@@ -15,7 +15,7 @@ const [EDIT_CALENDAR, EDIT_CALENDAR_SUCCESS, EDIT_CALENDAR_FAILURE] = createRequ
 
 export const initialize = createAction(INITIALIZE);
 
-export const writeCalendar = createAction(WRITE_CALENDAR, ({ title, body, startDay, startDate, endDay, endDate, label}:any) => ({
+export const writeCalendar = createAction(WRITE_CALENDAR, ({ title, body, startDay, startDate, endDay, endDate, label}:calendarAPI.calendarState) => ({
     title,
     body,
     startDay,
@@ -25,8 +25,8 @@ export const writeCalendar = createAction(WRITE_CALENDAR, ({ title, body, startD
     label,
 }));
 
-export const updateCalendar = createAction(UPDATE_CALENDAR, ({ calendarId, title, body, startDay, startDate, endDay, endDate, label}:any) => ({
-    id:calendarId,
+export const updateCalendar = createAction(UPDATE_CALENDAR, ({ id, title, body, startDay, startDate, endDay, endDate, label}:calendarAPI.calendarState) => ({
+    id,
     title,
     body,
     startDay,
@@ -36,7 +36,7 @@ export const updateCalendar = createAction(UPDATE_CALENDAR, ({ calendarId, title
     label,
 }));
 
-export const editCalendar = createAction(EDIT_CALENDAR, (id:any) => id);
+export const editCalendar = createAction(EDIT_CALENDAR, (id:string) => id);
 
 //사가 생성
 const writeCalendarSaga = createRequestSaga(WRITE_CALENDAR, calendarAPI.writeCalendar);
@@ -53,7 +53,7 @@ export interface WriteState {
     setcalendar: getCalendarListDb|null, //수정 화면 시
     calendar: getCalendarListDb|null,
     calendarError: any|null,
-    calendarId: any|null,
+    calendarId: string|null,
 }
 
 const initialState:WriteState = {

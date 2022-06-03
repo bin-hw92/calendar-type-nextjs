@@ -1,17 +1,18 @@
-import { useCallback, useEffect } from "react";
+import { MouseEvent, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CalendarView from "../../components/calendar/CalendarView";
-import { changeModal, listCalendar } from "../../modules/calendar";
-import { deleteCalendar, readCalendar, unloadCalendar } from "../../modules/view";
-import { editCalendar } from "../../modules/write";
+import { RootState } from "../../store/modules";
+import { changeModal, listCalendar } from "../../store/modules/calendar";
+import { deleteCalendar, readCalendar, unloadCalendar } from "../../store/modules/view";
+import { editCalendar } from "../../store/modules/write";
 
-function timeout(delay) { 
+function timeout(delay:number) { 
     return new Promise( res => setTimeout(res, delay) ); 
 }
 
 const CalendarViewContainer = () => {
     const dispatch = useDispatch();
-    const { startMonth, endMonth, form, calendars, deleteFlag, user, loading } = useSelector(({ calendar, view, user, loading }) => ({
+    const { startMonth, endMonth, form, calendars, deleteFlag, user, loading } = useSelector(({ calendar, view, user, loading }:RootState) => ({
         startMonth: calendar.startMonth,
         endMonth: calendar.endMonth,
         form: calendar.form,
@@ -23,16 +24,16 @@ const CalendarViewContainer = () => {
     }));
     const {viewYear, viewMonth, viewDate} = form;
 
-    const onClick = useCallback(async (e, id) => {
-        const eClassName = e.target.className;
-        if(eClassName === 'title' || eClassName === 'title-font'){
-            const flag = await dispatch(editCalendar({id}));
+    const onClick = useCallback(async (e:MouseEvent<Element>, id:string) => {
+        const eClassName = e.target as Element;
+        if(eClassName.className === 'title' || eClassName.className === 'title-font'){
+            const flag = await dispatch(editCalendar(id));
             if(flag) await dispatch(changeModal({modalFlag:true, type:'wrtie'}));
         }
-        if(eClassName === 'delete') {
+        if(eClassName.className === 'delete') {
             if (window.confirm("정말 삭제합니까?")) {
                 const checkDate = `${viewYear}.${viewMonth}.${viewDate}`;
-                await dispatch(deleteCalendar({id}));
+                await dispatch(deleteCalendar(id));
                 await timeout(300); //0.3초 딜레이
                 await dispatch(readCalendar(checkDate));
                 await dispatch(listCalendar({startMonth, endMonth}));

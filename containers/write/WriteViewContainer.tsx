@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useEffect } from "react";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +8,7 @@ import { RootState } from "../../store/modules";
 import { initialize, updateCalendar, writeCalendar } from "../../store/modules/write";
 import { labels } from "../utils/labelStyle";
 
-const dateChangeFormat = ({date}:any) => {
+const dateChangeFormat = (date:Date) => {
     const nDate = new Date(date);
     const nYear = nDate.getFullYear();
     const nMonth = ("0" + (1 + nDate.getMonth())).slice(-2);
@@ -58,7 +58,7 @@ const WriteViewContainer = () => {
     }
 
     //시,분 selected BOx 핸들러
-    const onChange = useCallback((e:any) => {
+    const onChange = useCallback((e:ChangeEvent<HTMLSelectElement>) => {
         const { value, name, id } = e.target;
         if(id === 'start-hours'){
             dispatch(changeSubWrite({
@@ -91,8 +91,8 @@ const WriteViewContainer = () => {
     },[dispatch]);
 
     //DatePicker 변경용 핸들러
-    const onDateChange = useCallback((date:any, type:any) => {
-        const nextDate = dateChangeFormat({date});
+    const onDateChange = useCallback((date:Date, type:string) => {
+        const nextDate = dateChangeFormat(date);
         if(type === "START"){
             dispatch(changeWrite({key: 'startDay', value: nextDate,}));
             dispatch(changeSubWrite({form: 'startDate', key: 'year', value: nextDate.split('.')[0],}));
@@ -108,7 +108,7 @@ const WriteViewContainer = () => {
     },[dispatch]);
 
     //INPUT과 TEXTAREA 핸들러
-    const onInputChange = (e:any) => {
+    const onInputChange = (e:ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target;
         if(name === 'title') setTitle(value);
         if(name === 'body') setBody(value);
@@ -116,7 +116,7 @@ const WriteViewContainer = () => {
     };
 
     //등록 핸들러
-    const onSubmit = useCallback((e:any) => {
+    const onSubmit = useCallback((e:FormEvent) => {
         e.preventDefault();
         const label = {
             style: labelStyle,
@@ -138,7 +138,7 @@ const WriteViewContainer = () => {
         if(!calendarId){ //추가
             dispatch(writeCalendar({title, body, startDay, startDate, endDay, endDate, label}));
         }else{//수정
-            dispatch(updateCalendar({calendarId, title, body, startDay, startDate, endDay, endDate, label}));
+            dispatch(updateCalendar({id:calendarId, title, body, startDay, startDate, endDay, endDate, label}));
         }
     },[body, calendarId, dispatch, endDate, endDay, labelStyle, labelText, startDate, startDay, title]);
 
@@ -193,7 +193,7 @@ const WriteViewContainer = () => {
         labelText,
     }
 
-    const onStyleClick = useCallback((id:any) => {
+    const onStyleClick = useCallback((id:number) => {
         let color = '';
         labels.forEach((label) => {
             if(label.id === id) color = label.color;

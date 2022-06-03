@@ -24,7 +24,7 @@ export const initialize = createAction(INITIALIZE);
 export const tableout = createAction(TABLE_OUT);
 
 export const checkTable = createAction(CHECK_TABLE, 
-    ({id, password}:any) => ({
+    ({id, password}:tableAPI.tableActionState) => ({
         id,
         password, 
     }),
@@ -32,12 +32,12 @@ export const checkTable = createAction(CHECK_TABLE,
 
 export const changeField = createAction(
     CHANGE_FINELD,
-    ({ key, value }:any) => ({
+    ({ key, value }:tableAPI.tableActionState) => ({
         key, // title, body, password, users
         value, // 실제 바꾸려는 값
     }),
 );
-export const writeTable = createAction(WRITE_TABLE, ({ title, password, body, users}:any) => ({
+export const writeTable = createAction(WRITE_TABLE, ({ title, password, body, users}:tableAPI.tableWirteState) => ({
     title,
     password,
     body,
@@ -45,11 +45,9 @@ export const writeTable = createAction(WRITE_TABLE, ({ title, password, body, us
 }));
 
 
-export const listTable = createAction(LIST_TABLE, ({ page }:any) => ({
-    page
-}));
+export const listTable = createAction(LIST_TABLE, (page:number) => (page));
 
-export const deleteTable = createAction(DELETE_TABLE, ({id}:any) => ({id}));
+export const deleteTable = createAction(DELETE_TABLE, (id:string) => (id));
 
 //사가 생성
 const writeTableSaga = createRequestSaga(WRITE_TABLE, tableAPI.writeTable);

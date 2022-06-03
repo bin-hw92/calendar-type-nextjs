@@ -12,8 +12,30 @@ const CalendarListBlock = styled(Responsive)`
     margin-top: 4rem;
 `;
 
+type CalendarItemProps = {
+    item: {
+        date: string;
+        fullDate: string;
+        isMonth: boolean;
+        todoList: ItemArray[];
+        holiday: boolean;
+    };
+    idx: number;
+    viewDate: string;
+    onClick: (fullDate:string)=>void;
+}
+type ItemArray = {
+    _id: string;
+    title: string;
+    label: {
+        style: string;
+    }
+    startflag: boolean;
+    endflag: boolean;
+    daysize: number;
+}
 
-const CalendarItem = ({ item, idx, viewDate, onClick }) => {
+const CalendarItem = ({ item, idx, viewDate, onClick }:CalendarItemProps) => {
     const {date, fullDate, isMonth, todoList, holiday} = item;
     const thisDate = fullDate.split('.');
 
@@ -40,7 +62,14 @@ const CalendarItem = ({ item, idx, viewDate, onClick }) => {
     );
 };
 
-const CalendarMonthList = ({loading, dates, viewDate, error, onClick}) => {
+type CalendarMonthListProps = {
+    loading: any;
+    dates: Array<any>;
+    viewDate: string;
+    error: any;
+    onClick: (fullDate: string) => void;
+}
+const CalendarMonthList = ({loading, dates, viewDate, error, onClick}:CalendarMonthListProps) => {
     if(error){
         if(error.response && error.response.status === 404){
             return <CalendarListBlock>파일이 존재하지 않습니다.</CalendarListBlock>

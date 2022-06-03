@@ -14,8 +14,11 @@ const initialState: FormState = {
   viewForm: 0,
 };
 
+type ChangeState = {
+    [key: string] : string|number,
+ }
 
-export const changeForm = createAction(CHANGE_FORM, ({ key, value}:any) => ({
+export const changeForm = createAction(CHANGE_FORM, ({ key, value}:ChangeState) => ({
     key,
     value
 }));

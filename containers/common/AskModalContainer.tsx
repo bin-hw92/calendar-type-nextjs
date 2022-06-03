@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 import { useEffect } from "react";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,8 +16,8 @@ const AskModalContainer = ({children}:any) => {
         type: calendar.type,
     }));
 
-    const onClick = useCallback((e:any) => {
-        const eTarget = e.target;
+    const onClick = useCallback((e:MouseEvent<Element>) => {
+        const eTarget = e.target as HTMLDataElement;
         if(eTarget.tagName === 'DIV' && eTarget.className === 'todo-wrap'){
             dispatch(changeModal({modalFlag:false, type:null}));
             dispatch(unloadCalendar());

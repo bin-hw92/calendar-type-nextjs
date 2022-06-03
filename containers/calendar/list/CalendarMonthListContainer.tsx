@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CalendarMonthList from "../../../components/calendar/list/CalendarMonthList";
-import { changeCalendar, changeModal, changeWrite, changeSubWrite, initialize, listCalendar, listHoliday, changeCalendarMonth } from "../../../modules/calendar";
+import { changeCalendar, changeModal, changeWrite, changeSubWrite, listCalendar, listHoliday, changeCalendarMonth } from "../../../store/modules/calendar";
+import { RootState } from "../../../store/modules";
 import { DayCalc, DayStartEnd } from "../../utils/DayCalc";
 
 const CalendarMonthListContainer = () => {
     const [dates, setDates] = useState([]);
     const dispatch = useDispatch();
-    const {form, calendarList, error, loading, holidayList } = useSelector(({ calendar, loading }) => ({
+    const {form, calendarList, error, loading, holidayList } = useSelector(({ calendar, loading }:RootState) => ({
         form: calendar.form,
         calendarList: calendar.calendarList,
         error: calendar.error,
@@ -38,7 +39,7 @@ const CalendarMonthListContainer = () => {
         setDates(thisDates);
     },[calendarList, holidayList, viewMonth, viewYear]);
 
-    const onClick = useCallback((fullDate) => {
+    const onClick = useCallback((fullDate:string) => {
         const DateArray = fullDate.split('.');
         dispatch(changeCalendar({
             viewYear: DateArray[0],
@@ -56,7 +57,7 @@ const CalendarMonthListContainer = () => {
         dispatch(changeSubWrite({form: 'endDate', key: 'date', value: DateArray[2]}));
         
         //값이 있을 경우 해당 날짜 상세 보여주기!!
-        const TodoLen = calendarList.filter(({startDay, endDay}) => startDay <= fullDate && endDay >= fullDate).length;
+        const TodoLen = calendarList !== null && calendarList.filter(({startDay, endDay}) => startDay <= fullDate && endDay >= fullDate).length;
         if(TodoLen > 0) dispatch(changeModal({modalFlag:true, type:'view'}));
     },[calendarList, dispatch]);
     

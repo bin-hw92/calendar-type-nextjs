@@ -14,21 +14,21 @@ const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] = createRequestActionTypes('auth/LOG
 
 export const changeField = createAction(
     CHANGE_FINELD,
-    ({ form, key, value }:any) => ({
+    ({ form, key, value }:authAPI.AuthApistate) => ({
         form, // register, login
         key, // username, password, passwordConfirm
         value, // 실제 바꾸려는 값
     }),
 );
 
-export const initializeForm = createAction(INITIALIZE_FORM, (form:any) => form); // register / login
+export const initializeForm = createAction(INITIALIZE_FORM, (form:string) => form); // register / login
 
-export const register = createAction(REGISTER, ({ username, password}:any) => ({
+export const register = createAction(REGISTER, ({ username, password}:authAPI.AuthApistate) => ({
     username,
     password,
 }));
 
-export const login = createAction(LOGIN, ({ username, password}:any) => ({
+export const login = createAction(LOGIN, ({ username, password}:authAPI.AuthApistate) => ({
     username,
     password
 }));

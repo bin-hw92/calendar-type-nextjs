@@ -8,10 +8,10 @@ const [READ_CALENDAR, READ_CALENDAR_SUCCESS, READ_CALENDAR_FAILURE] = createRequ
 const UNLOAD_CALENDAR = 'view/UNLOAD_CALENDAR'; // 게시판 페이지에서 벗어날 때 데이터 비우기
 const [DELETE_CALENDAR, DELETE_CALENDAR_SUCCESS, DELETE_CALENDAR_FAILURE] = createRequestActionTypes('view/DELETE_CALENDAR'); 
 
-export const readCalendar = createAction(READ_CALENDAR, (checkDate:any) => checkDate);
+export const readCalendar = createAction(READ_CALENDAR, (checkDate:string) => checkDate);
 export const unloadCalendar = createAction(UNLOAD_CALENDAR);
 
-export const deleteCalendar = createAction(DELETE_CALENDAR, ({id, checkDate}:any) => ({id, checkDate}));
+export const deleteCalendar = createAction(DELETE_CALENDAR, (id:string) => (id));
 
 const readCalendarSaga = createRequestSaga(READ_CALENDAR, calendarAPI.readCalendar);
 const deleteCalendarSaga = createRequestSaga(READ_CALENDAR, calendarAPI.deleteCalendar);

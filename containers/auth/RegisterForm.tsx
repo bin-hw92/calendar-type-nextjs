@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import AuthForm from "../../components/auth/AuthForm";
 import { RootState } from "../../store/modules";
@@ -17,7 +17,7 @@ const RegisterForm = () => {
     ));
 
     // 인풋 변경 이벤트 핸들러
-    const onChange = (e:any) => {
+    const onChange = (e:ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target;
         dispatch(
             changeField({
@@ -29,7 +29,7 @@ const RegisterForm = () => {
     };
 
     //폼 등록 이벤트 핸들러
-    const onSubmit = (e:any) => {
+    const onSubmit = (e:FormEvent) => {
         e.preventDefault();
         const { username, password, passwordConfirm } = form;
         // 하나라도 비어 있다면

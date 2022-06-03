@@ -11,15 +11,24 @@ const PaginationBlock = styled.div`
     align-items: center;
     margin-bottom: 3rem;
 `;
-
 const PageNumber = styled.div``;
 
-const BuildLink = ({ username, page }:any) => {
+type BuildLinkProps = {
+    username: string;
+    page: number;
+}
+
+const BuildLink = ({ username, page }:BuildLinkProps) => {
     const router = useRouter();
-    const query = router.query;
-    return username = '';
+    //const query = router.query.page;
+    return username = `/?${page}`;
 };
-const Pagination = ({ page, lastPage }:any) => {
+
+type PaginationProps = {
+    page: number;
+    lastPage: number;
+}
+const Pagination = ({ page, lastPage }:PaginationProps) => {
     const prevFlag:boolean = page === 1? true : false;
     const nextFlag:boolean = page === lastPage? true : false;
     return (

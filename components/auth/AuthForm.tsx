@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ChangeEvent, FormEvent } from "react";
 import styled from "styled-components";
 import palette from "../../styles/palette";
 import Button from "../common/Button";
@@ -65,10 +66,10 @@ const textMap = {
 };
 
 type AuthFormProps = {
-    type: any;
+    type: string;
     form: any;
-    onChange:(e:any) => void;
-    onSubmit:(e:any) => void;
+    onChange:(e:ChangeEvent<HTMLInputElement>) => void;
+    onSubmit:(e:FormEvent) => void;
     error: any;
 }
 

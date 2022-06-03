@@ -1,7 +1,8 @@
+import { MouseEvent } from 'react';
 import Styles from '../../styles/Todo.module.css';
 
 type AskModalProps = {
-    onClick: (e:any) => void;
+    onClick: (e:MouseEvent<Element>) => void;
     childrenForm: any;
 }
 

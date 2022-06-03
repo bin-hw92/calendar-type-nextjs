@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Loading from "../common/Loading";
 import Styles from "../../styles/Table.module.css";
 import { getTableListDB } from "../../store/types";
+import { KeyboardEvent } from "react";
 
 /* 에러를 보여줍니다. */
 const ErrorMessage = styled.div`
@@ -15,13 +16,15 @@ const ErrorMessage = styled.div`
 
 type TableListProps = {
   tableList: getTableListDB[]|null;
-  user: any;
+  user: {
+    [key in string] : string;
+  }|null;
   loading: any;
   tableError: any;
   error: string[];
-  onClick: (id:any) => void;
-  onKeyUp: (e:any) => void;
-  onDelClick: (id:any) => void;
+  onClick: (id:string) => void;
+  onKeyUp: (e:KeyboardEvent<HTMLInputElement>) => void;
+  onDelClick: (id:string) => void;
 }
 
 const TableList = ({tableList, user, loading, tableError, error, onClick, onKeyUp, onDelClick}:TableListProps) => {
@@ -46,7 +49,7 @@ const TableList = ({tableList, user, loading, tableError, error, onClick, onKeyU
                     <div className={Styles.item_top}>
                       <div className={Styles.item_top_title}>
                           <div>{table.title}</div>
-                          {table.user.username === user.username && <div className={Styles.item_delete_button} onClick={() => onDelClick(table._id)}></div>}
+                          {table.user.username === user?.username && <div className={Styles.item_delete_button} onClick={() => onDelClick(table._id)}></div>}
                       </div>
                       <div className={Styles.item_top_password}>
                         <Form.Control type="password" id={'password_'+table._id} data-id={table._id} name="password" placeholder="비밀번호" style={passwordError} onKeyUp={onKeyUp}/>

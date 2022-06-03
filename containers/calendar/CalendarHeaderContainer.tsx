@@ -1,25 +1,32 @@
 import { useRouter } from "next/router";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CalendarHeader from "../../components/calendar/CalendarHeader";
-import { changeCalendar, changeWrite, changeModal, changeSubWrite } from "../../modules/calendar";
-import { changeForm } from "../../modules/form";
-import { tableout } from "../../modules/tables";
+import { changeCalendar, changeWrite, changeModal, changeSubWrite } from "../../store/modules/calendar";
+import { changeForm } from "../../store/modules/form";
+import { tableout } from "../../store/modules/tables";
+import { RootState } from "../../store/modules";
 
+const getCalendarName = (viewYear:string, viewMonth:string) => {
+    const name = `${viewYear}년 ${viewMonth}월`;
+    return name;
+}
 
 const CalendarHeaderContainer = () => {
     const dispatch = useDispatch();
     const router = useRouter();
 
-    const {viewYear, viewMonth, user, tableCalendar} = useSelector(({ calendar, user, tables }) => ({
+    const {viewYear, viewMonth, user, tableCalendar} = useSelector(({ calendar, user, tables }:RootState) => ({
         viewYear: calendar.form.viewYear,
         viewMonth: calendar.form.viewMonth,
         user: user.user,
         tableCalendar: tables.tableCalendar,
     }));
 
-    const onClick = useCallback(idx => {
-        const thisDate = new Date(viewYear, viewMonth, 0);
+    const headerNmae = useMemo(() => getCalendarName(viewYear, viewMonth),[viewMonth, viewYear]);
+
+    const onClick = useCallback((idx:number) => {
+        const thisDate = new Date(parseInt(viewYear+''), parseInt(viewMonth+''), 0);
         let changeYear = viewYear;
         let changeMonth = viewMonth;
         let changeDate = '01';
@@ -70,7 +77,7 @@ const CalendarHeaderContainer = () => {
         dispatch(tableout());
     };
 
-    const onFormChange = value => {
+    const onFormChange = (value:number) => {
         dispatch(changeForm({key: 'viewForm', value}));
     }
 
@@ -88,8 +95,7 @@ const CalendarHeaderContainer = () => {
     return (
         <CalendarHeader 
             user={user} 
-            viewYear={viewYear} 
-            viewMonth={viewMonth} 
+            headerNmae={headerNmae} 
             tableCalendar={tableCalendar} 
             onClick={onClick} 
             onModalClick={onModalClick} 
