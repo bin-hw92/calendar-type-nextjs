@@ -2,8 +2,28 @@
 import { ChangeEvent, FormEvent } from "react";
 import { Button, Form } from "react-bootstrap";
 import styled from "styled-components";
-import Styles from "../../styles/Table.module.css";
 
+/* styled component */
+const TableWrite = styled.form`
+    ul {
+        margin: 30px auto auto;
+        padding: 0;
+        list-style: none;
+
+        li {
+            margin-bottom: 10px;
+        }
+    }
+    
+    .table-bottom {
+        width: 100%;
+        text-align: center;
+
+        button {
+            margin: 15px 5px;
+        }
+    }
+`
 /* 에러를 보여줍니다. */
 const ErrorMessage = styled.div`
     color: red;
@@ -32,24 +52,24 @@ const WriteTable = ({ table, error, onSubmit, onCancel, onChange }:WriteTablePro
 
     return (
         <>
-        <form className={Styles.table_write} onSubmit={onSubmit}>
-            <ul>
-                <li className={Styles.table_title}>
+        <TableWrite onSubmit={onSubmit}>
+        <ul>
+                <li className="table-title">
                     <Form.Control type="text" id="title" style={titleError} name="title" placeholder="제목을 입력하세요" onChange={onChange} value={table.title} />
                 </li>
-                <li className={Styles.table_title}>
+                <li className="table-title">
                     <Form.Control type="password" id="password" style={passwordError} name="password" placeholder="비밀번호를 입력하세요" onChange={onChange} value={table.password} />
                 </li>
-                <li className={Styles.table_text}>
+                <li className="table-text">
                     <Form.Control as="textarea" name="body" rows={5} onChange={onChange} value={table.body} style={bodyError} />
                 </li>
             </ul>
             {error[0] > 0 && <ErrorMessage>{error[1]}</ErrorMessage>}
-            <div className={Styles.table_bottom}>
+            <div className="table-bottom">
                 <Button variant="secondary" data-btn="N" onClick={onCancel}>취소</Button>
                 <Button variant="primary" data-btn="Y" onClick={onSubmit}>저장</Button>
             </div>
-        </form>
+        </TableWrite>
         </>
     )
 };

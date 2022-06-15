@@ -38,7 +38,7 @@ export const DayCalc = ({viewYear, viewMonth, calendarList, holidayList}:DayCalc
     }
     //현재 달 게산
     for(let i=1; i < TLDate+1; i++){
-        const day = i < 10? `0${i}` : i;
+        const day = i < 10? `0${i}` : ''+i;
         thisDates.push({
             date: day+'', 
             fullDate: `${viewYear}.${viewMonth}.${day}`,
@@ -72,9 +72,9 @@ export const DayCalc = ({viewYear, viewMonth, calendarList, holidayList}:DayCalc
                 if(+sDate === +tDate && +eDate > +tDate) result.push({...calendar, 'startflag': true, 'endflag': false}); //시작이지만, 종료가 아닌 날
                 if(+sDate < +tDate && +eDate === +tDate) result.push({...calendar, 'startflag': false, 'endflag': true}); //시작일보다 큰데 종료일인 날
                 if(+sDate < +tDate && +tDate < +eDate && idx % 7 === 0){
-                    const newDaysize = (parseInt(eDate+'') - parseInt(tDate+''))/1000/60/60/24;
-                    if(newDaysize === 0)result.push({...calendar, 'startflag': true, 'endflag': true, daysize: newDaysize}); //기간이 길어서 다음주로 넘어갔을 때 일요일 종료
-                    if(newDaysize > 0)result.push({...calendar, 'startflag': true, 'endflag': false, daysize: newDaysize}); //기간이 길어서 다음주로 넘어갔을 때 일요일 보다 클 경우
+                    const newDaysize = (+eDate - +tDate)/1000/60/60/24;
+                    if(newDaysize === 0) result.push({...calendar, 'startflag': true, 'endflag': true, daysize: newDaysize}); //기간이 길어서 다음주로 넘어갔을 때 일요일 종료
+                    if(newDaysize > 0) result.push({...calendar, 'startflag': true, 'endflag': false, daysize: newDaysize}); //기간이 길어서 다음주로 넘어갔을 때 일요일 보다 클 경우
                 }
                 if(+sDate < +tDate && +tDate < +eDate  && idx % 7 > 0 && idx % 7 < 6) result.push({...calendar, 'startflag': false, 'endflag': false}); //기간 중간 날짜
                 if(+sDate < +tDate && +tDate < +eDate && (idx+1) % 7 === 0){
@@ -88,16 +88,20 @@ export const DayCalc = ({viewYear, viewMonth, calendarList, holidayList}:DayCalc
         const holiday = holidayList.filter((holidays:any) => holidays.locdate === parseInt( tDates[0]+tDates[1]+dates.date) ).length === 0? false : true;
         nextDates.push({...dates, todoList, 'holiday': holiday});
     });
-    console.log(nextDates);
 
     return nextDates;
 };
 
 
-export const DayStartEnd = ({viewYear, viewMonth}:any) => {
+type DayStartEndProps = {
+    viewYear: string;
+    viewMonth: string;
+}
+
+export const DayStartEnd = ({viewYear, viewMonth}:DayStartEndProps) => {
        // 지난 달 마지막 Date, 이번 달 마지막 Date
-       const prevLast = new Date(viewYear, viewMonth - 1, 0);
-       const thisLast = new Date(viewYear, viewMonth, 0);
+       const prevLast = new Date(parseInt(viewYear), parseInt(viewMonth) - 1, 0);
+       const thisLast = new Date(parseInt(viewYear), parseInt(viewMonth), 0);
    
        const PLYear = prevLast.getFullYear();
        const PLMonth =  ("0" + (1 + prevLast.getMonth())).slice(-2);

@@ -3,10 +3,10 @@ import Loading from '../../common/Loading';
 import Responsive from '../../common/Responsive';
 import CalendarItem from './CalendarItem';
 
-/* Styled Component */
-const CalendarListMonthBlock = styled.div`
+/* Style Compent */
+const CalendarListWeekBlock = styled.div`
     position: relative;
-    min-height: 875px;
+    min-height: 390px;
     border: 1px solid #333;
     border-bottom: 0;
 
@@ -24,7 +24,6 @@ const CalendarListMonthBlock = styled.div`
             border-bottom: 1px solid #333;
         }
     }
-
     .list-item {
         margin: auto;
         padding: 0;
@@ -36,11 +35,11 @@ const CalendarListMonthBlock = styled.div`
             position: relative;
             padding: 35px 1px 5px 1px;
             width: calc(100% / 7);
-            min-height: 165px;
+            min-height: 340px;
             border-bottom: 1px solid #333;
             cursor: pointer;
-
-            &:nth-child(7n){
+            
+            &:last-child{
                 border-right: 0;
             }
         }
@@ -137,6 +136,8 @@ const CalendarListBlock = styled(Responsive)`
     margin-top: 4rem;
 `;
 
+
+
 /* Type Props */
 type CalendarMonthListProps = {
     loading: any;
@@ -146,7 +147,7 @@ type CalendarMonthListProps = {
     onClick: (fullDate: string) => void;
 }
 
-const CalendarMonthList = ({loading, dates, viewDate, error, onClick}: CalendarMonthListProps) => {
+const CalendarWeekList = ({loading, dates, viewDate, error, onClick}: CalendarMonthListProps) => {
     if(error){
         if(error.response && error.response.status === 404){
             return <CalendarListBlock>파일이 존재하지 않습니다.</CalendarListBlock>
@@ -154,7 +155,7 @@ const CalendarMonthList = ({loading, dates, viewDate, error, onClick}: CalendarM
     }
     
     return (
-        <CalendarListMonthBlock>
+        <CalendarListWeekBlock>
             <ul className="list-title">
                 <li className="Sun">일</li>
                 <li>월</li>
@@ -166,12 +167,12 @@ const CalendarMonthList = ({loading, dates, viewDate, error, onClick}: CalendarM
             </ul>
             <ul className="list-item">
                 {dates.map((date, idx) => (
-                    <CalendarItem key={date.fullDate} item={date} idx={idx} viewDate={viewDate} onClick={onClick} />
+                    <CalendarItem key={date.fullDate} item={date} idx={idx} viewDate={viewDate} onClick={onClick}/>
                 ))}
             </ul>
             {loading && <Loading />}
-        </CalendarListMonthBlock>
+        </CalendarListWeekBlock>
     )
 }
 
-export default CalendarMonthList;
+export default CalendarWeekList;
