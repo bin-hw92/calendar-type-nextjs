@@ -7,9 +7,8 @@ type MonthChangeProps = {
     viewYear: string;
     viewMonth: string;
 }
-
+/* 월별 */
 const MonthChange = ({idx, viewYear, viewMonth}:MonthChangeProps) => {
-    console.log('@@2');
     const thisDate = new Date(parseInt(viewYear), parseInt(viewMonth), 0);
     let changeYear = viewYear;
     let changeMonth = viewMonth;
@@ -45,7 +44,7 @@ type WeekChangeProps = {
     viewMonth: string;
     viewDate: string;
 }
-
+/* 주별 */
 const WeekChange = ({idx, viewYear, viewMonth, viewDate}:WeekChangeProps) => {
     const thisDate = new Date(parseInt(viewYear), parseInt(viewMonth)-1, parseInt(viewDate)); // 해당 달의 몇요일인지 알기 위해서 사용
     const thisDay = thisDate.getDay()+1; //현재 날의 요일을 숫자로 표시
@@ -98,6 +97,33 @@ const WeekChange = ({idx, viewYear, viewMonth, viewDate}:WeekChangeProps) => {
     return {changeYear, changeMonth, changeDate};
 }
 
+type YearChangeProps = {
+    idx: number;
+    viewYear: string;
+}
+/* 년별 모아보기 */
+const YearChange = ({idx, viewYear}:YearChangeProps) => {
+    let changeYear = viewYear;
+    let changeMonth = '01';
+    let changeDate = '01';
+    if(idx === -1){
+        changeYear = ''+(parseInt(viewYear) - 1);
+        changeMonth = '12';
+    }
+    if(idx === 1){
+        changeYear = ''+(parseInt(viewYear) + 1);
+    }
+    
+    if(idx === 0){
+        const nowDate = new Date();
+        changeYear = ''+nowDate.getFullYear();
+        changeMonth = ('0' + (1 + nowDate.getMonth())).slice(-2);
+        changeDate = ('0' + nowDate.getDate()).slice(-2);
+    }
+
+    return {changeYear, changeMonth, changeDate};
+}
+
 type useCalendarProps = {
     viewYear: string;
     viewMonth: string;
@@ -107,8 +133,8 @@ type useCalendarProps = {
 export function useCalendar({viewYear, viewMonth, viewDate, viewForm}:useCalendarProps) {
     const dispatch = useDispatch();
     const onClick = useCallback((idx:number) => {
-        const {changeYear, changeMonth, changeDate} = viewForm === 0? MonthChange({idx, viewYear, viewMonth}) : WeekChange({idx, viewYear, viewMonth, viewDate});
-
+        const {changeYear, changeMonth, changeDate} = viewForm === 0? MonthChange({idx, viewYear, viewMonth}) : 
+                viewForm === 1? WeekChange({idx, viewYear, viewMonth, viewDate}) : YearChange({idx, viewYear}); //0: 월별, 1: 주별, 2: 해당 년도 모아보기
 
         dispatch(changeCalendar({
             viewYear: changeYear,

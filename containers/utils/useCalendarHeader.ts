@@ -1,10 +1,11 @@
 import { useMemo } from "react";
 
+/* 월별 */
 const getCalendarMonthName = (viewYear:string, viewMonth:string) => {
     const name = `${viewYear}년 ${viewMonth}월`;
     return name;
 }
-
+/* 주별 */
 const getCalendarWeekName = (viewYear:string, viewMonth:string, viewDate:string) => {
     const firstDay = new Date(parseInt(viewYear), parseInt(viewMonth)-1, 1);
     const prevDay =  new Date(parseInt(viewYear), parseInt(viewMonth)-2, 0);
@@ -38,6 +39,11 @@ const getCalendarWeekName = (viewYear:string, viewMonth:string, viewDate:string)
     return `${viewYear}년 ${viewMonth}월 ${weekCnt}주차`;
 }
 
+/* 년별 모아보기 */
+const getCalendarYearName = (viewYear:string) => {
+    const name = `${viewYear}년`;
+    return name;
+}
 type CalendarHeaderProps = {
     viewYear: string;
     viewMonth: string;
@@ -48,5 +54,6 @@ type CalendarHeaderProps = {
 export function useCalendarHeader({viewYear, viewMonth, viewDate, viewForm}:CalendarHeaderProps){
     const headerMonthName = useMemo(() => getCalendarMonthName(viewYear, viewMonth),[viewYear, viewMonth]);
     const headerWeekName =  useMemo(() => getCalendarWeekName(viewYear, viewMonth, viewDate),[viewYear, viewMonth, viewDate]);
-    return viewForm === 0 ? headerMonthName : headerWeekName; 
+    const headerYearName =  useMemo(() => getCalendarYearName(viewYear),[viewYear]);
+    return viewForm === 0 ? headerMonthName : viewForm === 1 ? headerWeekName : headerYearName; 
 }

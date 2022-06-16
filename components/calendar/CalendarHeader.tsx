@@ -110,6 +110,8 @@ type CalendarHeaderProps = {
 const CalendarHeader = ({user, headerName, tableCalendar, viewForm, onClick, onModalClick, onBackClick, onFormChange}:CalendarHeaderProps) => {
   const monthClass = viewForm === 0? 'month-button on-button' : 'month-button';
   const weekClass  = viewForm === 1? 'week-button on-button' : 'week-button';
+  const yearClass  = viewForm === 2? 'year-button on-button' : 'year-button';
+
   return (
     <>
     <CalendarTopHeader>
@@ -129,6 +131,7 @@ const CalendarHeader = ({user, headerName, tableCalendar, viewForm, onClick, onM
       </div>)}
     </CalendarHeaderWrap>
     <CalendarButtonHader>
+      <button className={yearClass} onClick={() => onFormChange(2)}>년</button>
       <button className={weekClass} onClick={() => onFormChange(1)}>주</button>
       <button className={monthClass} onClick={() => onFormChange(0)}>월</button>
     </CalendarButtonHader>

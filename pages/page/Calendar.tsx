@@ -8,6 +8,7 @@ import CalendarViewContainer from "../../containers/calendar/CalendarViewContain
 import CalendarFormContainer from "../../containers/calendar/CalendarFormContainer";
 import CalendarWeekListContainer from "../../containers/calendar/list/CalendarWeekListContainer";
 import CalendarMonthListContainer from "../../containers/calendar/list/CalendarMonthListContainer";
+import CalendarYearListContainer from "../../containers/calendar/list/CalendarYearListContainer";
 
 
 const Calendar = () => {
@@ -19,6 +20,7 @@ const Calendar = () => {
                 <CalendarFormContainer>
                     <CalendarMonthListContainer />
                     <CalendarWeekListContainer />
+                    <CalendarYearListContainer />
                 </CalendarFormContainer>
             </Responsive>
             <AskModalContainer>
