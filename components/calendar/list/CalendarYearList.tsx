@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import styled from 'styled-components';
 import { getCalendarListDb } from '../../../store/types';
 import Loading from '../../common/Loading';
@@ -138,12 +139,14 @@ type CalendarYearListProps = {
     User: {
         [key in string] : string;
     }|null;
+    onClick: (e: MouseEvent<Element>, id: string, startDay: string) => Promise<void>;
 }
 type CalendarTodoListProps = {
     date: getCalendarListDb;
     User: {
         [key in string] : string;
     }|null;
+    onClick: (e: MouseEvent<Element>, id: string, startDay: string) => Promise<void>;
 }
 
 type TimeItemProps = {
@@ -179,7 +182,7 @@ const TimeItem = ({startDate, endDate}:TimeItemProps) => {
     )
 }
 
-const CalendarTodoList = ({date, User}:CalendarTodoListProps) => {
+const CalendarTodoList = ({date, User, onClick }:CalendarTodoListProps) => {
     const labelStyle = {'background': date.label.style};
     return (
         <li>
@@ -193,13 +196,15 @@ const CalendarTodoList = ({date, User}:CalendarTodoListProps) => {
                     <div className="title-font">{date.title}</div>
                 </li>
                 <li className="body">{date.body}</li>
-                {User?.username === date.user.username? (<li className="delete"></li>) : (<li className="delete-none"></li>)}
+                {User?.username === date.user.username? 
+                    (<li className="delete" onClick={(e) => onClick(e, date._id, date.startDay)}></li>) 
+                    : (<li className="delete-none"></li>)}
             </ul>
         </li>
     );
 }
 
-const CalendarYearList = ({loading, calendarList, error, User}: CalendarYearListProps) => {
+const CalendarYearList = ({loading, calendarList, error, User, onClick}: CalendarYearListProps) => {
     if(error){
         if(error.response && error.response.status === 404){
             return <CalendarListBlock>파일이 존재하지 않습니다.</CalendarListBlock>
@@ -217,7 +222,7 @@ const CalendarYearList = ({loading, calendarList, error, User}: CalendarYearList
             </ul>
             <ul className="list-item">
                 {calendarList.map((date, idx) => (
-                    <CalendarTodoList date={date} User={User} key={date._id}/>
+                    <CalendarTodoList date={date} User={User} onClick={onClick} key={date._id}/>
                 ))}
             </ul>
             {loading && <Loading />}

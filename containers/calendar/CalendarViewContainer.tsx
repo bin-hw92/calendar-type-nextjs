@@ -5,10 +5,7 @@ import { RootState } from "../../store/modules";
 import { changeModal, listCalendar } from "../../store/modules/calendar";
 import { deleteCalendar, readCalendar, unloadCalendar } from "../../store/modules/view";
 import { editCalendar } from "../../store/modules/write";
-
-function timeout(delay:number) { 
-    return new Promise( res => setTimeout(res, delay) ); 
-}
+import { timeout } from "../utils/useTimeout";
 
 const CalendarViewContainer = () => {
     const dispatch = useDispatch();
